@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { Players } from "./players.entity";
 import { PlayersModel } from "./players.model";
 
@@ -7,7 +8,15 @@ export class PlayersService {
     }
 
     async listPlayersByCategory(categoriaId: string): Promise<Players[]> {
-        return await PlayersModel.find({ categoria: categoriaId }).populate('categoria');
+        // Convertiamo la stringa in un vero ObjectId per Atlas
+        const objId = new Types.ObjectId(categoriaId);
+
+        return await PlayersModel.find({
+            $or: [
+                { categoria: objId },
+                { categoria: categoriaId }
+            ]
+        }).populate('categoria');
     }
 }
 

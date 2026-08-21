@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlayersService = void 0;
+const mongoose_1 = require("mongoose");
 const players_model_1 = require("./players.model");
 class PlayersService {
     listPlayers() {
@@ -19,7 +20,14 @@ class PlayersService {
     }
     listPlayersByCategory(categoriaId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield players_model_1.PlayersModel.find({ categoria: categoriaId }).populate('categoria');
+            // Convertiamo la stringa in un vero ObjectId per Atlas
+            const objId = new mongoose_1.Types.ObjectId(categoriaId);
+            return yield players_model_1.PlayersModel.find({
+                $or: [
+                    { categoria: objId },
+                    { categoria: categoriaId }
+                ]
+            }).populate('categoria');
         });
     }
 }
