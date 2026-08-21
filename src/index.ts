@@ -1,16 +1,22 @@
+import 'dotenv/config';
 import 'reflect-metadata';
 import { createServer } from 'node:http';
 import app from './app';
 import mongoose from 'mongoose';
 
+const PORT = process.env.PORT || 3000;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://lucamercante_db_user:ciaociao999...@cluster0.6hwwica.mongodb.net/calcio_backend?appName=Cluster0';
+
 const server = createServer(app);
-mongoose.set("debug", true)
-mongoose.connect('mongodb://localhost:27017/calcio_backend')
+
+server.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
+});
+
+mongoose.connect(MONGO_URI)
     .then(() => {
-        server.listen(3000, () => {
-            console.log(`server listening on port 3000`);
-        });
+        console.log("Connected to MongoDB Atlas");
     })
     .catch(err => {
-        console.log(err);
-    })
+        console.error("MongoDB connection error:", err);
+    });

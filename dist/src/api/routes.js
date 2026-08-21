@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const category_router_1 = __importDefault(require("./Category/category.router"));
+const club_router_1 = __importDefault(require("./Club/club.router"));
+const players_router_1 = __importDefault(require("./Players/players.router"));
+const sponsor_router_1 = __importDefault(require("./Sponsor/sponsor.router"));
+const notizie_router_1 = __importDefault(require("./Notizie/notizie.router"));
+const organigramma_router_1 = __importDefault(require("./Organigramma/organigramma.router"));
+const router = (0, express_1.Router)();
+router.use('/category', category_router_1.default);
+router.use('/clubs', club_router_1.default);
+router.use('/players', players_router_1.default);
+router.use('/sponsor', sponsor_router_1.default);
+router.use('/news', notizie_router_1.default);
+router.use('/organigramma', organigramma_router_1.default);
+exports.default = router;
